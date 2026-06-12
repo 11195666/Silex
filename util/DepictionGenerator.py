@@ -38,6 +38,7 @@ class DepictionGenerator:
             "docs/Packages",
             "docs/Packages.bz2",
             "docs/Packages.xz",
+            "docs/Packages.zst",
             "docs/Release",
             "docs/sileo-featured.json",
         ):

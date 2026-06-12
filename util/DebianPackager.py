@@ -645,17 +645,26 @@ class DebianPackager(object):
 
     def CompilePackages(self):
         """
-        Creates a Packages.bz2 file.
+        Creates Packages, Packages.bz2, Packages.xz, and Packages.zst files.
+        Sileo 2.5+ prefers Packages.zst; older clients fall back to .xz / .bz2.
         """
         # TODO: Update DpkgPy to generate DEB files without dependencies (for improved win32 support)
         call(["dpkg-scanpackages", "-m", "."], cwd=self.root + "docs/", stdout=open(self.root + "docs/Packages", "w"))
         call(["bzip2", "-kf", "Packages"], cwd=self.root + "docs/")
         call(["xz", "-kf", "Packages"], cwd=self.root + "docs/")
+        # Generate Packages.zst for Sileo 2.5+ (preferred format)
+        import shutil as _shutil
+        if _shutil.which("zstd"):
+            call(["zstd", "-f", "-19", "Packages", "-o", "Packages.zst"], cwd=self.root + "docs/")
 
     def SignRelease(self):
         """
-        Signs Release to create Release.gpg. Also adds hash for Packages.bz2 in Release.
+        Signs Release to create Release.gpg. Also adds hash for Packages.bz2/.xz/.zst in Release.
         """
+        import shutil as _shutil
+        zst_path = self.root + "docs/Packages.zst"
+        has_zst = os.path.exists(zst_path)
+
         with open(self.root + "docs/Packages", "rb") as packages_file,\
             open(self.root + "docs/Packages.bz2", "rb") as content_file,\
             open(self.root + "docs/Packages.xz", "rb") as content_file_xz:
@@ -669,9 +678,17 @@ class DebianPackager(object):
             xz_sha256_hash = hashlib.sha256(xz_raw).hexdigest()
             xz_size = os.path.getsize(self.root + "docs/Packages.xz")
             with open(self.root + "docs/Release", "a") as text_file:
-                text_file.write("\nSHA256:\n " + str(packages_sha256_hash) + " " + str(packages_size) + " Packages"
-                                "\n " + str(bzip_sha256_hash) + " " + str(bzip_size) + " Packages.bz2"
-                                "\n " + str(xz_sha256_hash) + " " + str(xz_size) + " Packages.xz\n")
+                sha_block = ("\nSHA256:\n " + str(packages_sha256_hash) + " " + str(packages_size) + " Packages"
+                             "\n " + str(bzip_sha256_hash) + " " + str(bzip_size) + " Packages.bz2"
+                             "\n " + str(xz_sha256_hash) + " " + str(xz_size) + " Packages.xz")
+                if has_zst:
+                    with open(zst_path, "rb") as zst_file:
+                        zst_raw = zst_file.read()
+                    zst_sha256_hash = hashlib.sha256(zst_raw).hexdigest()
+                    zst_size = os.path.getsize(zst_path)
+                    sha_block += "\n " + str(zst_sha256_hash) + " " + str(zst_size) + " Packages.zst"
+                sha_block += "\n"
+                text_file.write(sha_block)
                 repo_settings = PackageLister.GetRepoSettings(self)
                 try:
                     if repo_settings['enable_gpg'].lower() == "true":

@@ -152,9 +152,10 @@ def main():
         DebianPackager.CreateDEB(tweak_data['bundle_id'], tweak_data['version'])
         shutil.copy(root + "temp/" + tweak_data['bundle_id'] + ".deb", root + "docs/pkg/" + tweak_data['bundle_id'] + ".deb")
 
-    if len(buildable_release) > 0:
-        DebianPackager.CompilePackages()
-        DebianPackager.SignRelease()
+    DebianPackager.CompilePackages()
+    DebianPackager.SignRelease()
+
+    PackageLister.CreateFile("docs/.nojekyll", "")
 
     PackageLister.CreateFile("docs/api/tweak_release.json", json.dumps(tweak_release, separators=(',', ':')))
     PackageLister.CreateFile("docs/api/repo_settings.json", json.dumps(repo_settings, separators=(',', ':')))

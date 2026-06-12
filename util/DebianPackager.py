@@ -613,18 +613,19 @@ class DebianPackager(object):
         """
         # TODO: Update DpkgPy to generate DEB files without dependencies (for improved win32 support)
         call(["dpkg-scanpackages", "-m", "."], cwd=self.root + "docs/", stdout=open(self.root + "docs/Packages", "w"))
-        # For this, we're going to have to run it and then get the output. From here, we can make a new file.
-        shutil.copy(self.root + "docs/Packages", self.root + "docs/Packages2")
-        call(["bzip2", "Packages"], cwd=self.root + "docs/")
-        call(["mv", "Packages2", "Packages"], cwd=self.root + "docs/")
-        call(["xz", "Packages"], cwd=self.root + "docs/")
+        call(["bzip2", "-kf", "Packages"], cwd=self.root + "docs/")
+        call(["xz", "-kf", "Packages"], cwd=self.root + "docs/")
 
     def SignRelease(self):
         """
         Signs Release to create Release.gpg. Also adds hash for Packages.bz2 in Release.
         """
-        with open(self.root + "docs/Packages.bz2", "rb") as content_file,\
+        with open(self.root + "docs/Packages", "rb") as packages_file,\
+            open(self.root + "docs/Packages.bz2", "rb") as content_file,\
             open(self.root + "docs/Packages.xz", "rb") as content_file_xz:
+            packages_raw = packages_file.read()
+            packages_sha256_hash = hashlib.sha256(packages_raw).hexdigest()
+            packages_size = os.path.getsize(self.root + "docs/Packages")
             bzip_raw = content_file.read()
             bzip_sha256_hash = hashlib.sha256(bzip_raw).hexdigest()
             bzip_size = os.path.getsize(self.root + "docs/Packages.bz2")
@@ -632,7 +633,8 @@ class DebianPackager(object):
             xz_sha256_hash = hashlib.sha256(xz_raw).hexdigest()
             xz_size = os.path.getsize(self.root + "docs/Packages.xz")
             with open(self.root + "docs/Release", "a") as text_file:
-                text_file.write("\nSHA256:\n " + str(bzip_sha256_hash) + " " + str(bzip_size) + " Packages.bz2"
+                text_file.write("\nSHA256:\n " + str(packages_sha256_hash) + " " + str(packages_size) + " Packages"
+                                "\n " + str(bzip_sha256_hash) + " " + str(bzip_size) + " Packages.bz2"
                                 "\n " + str(xz_sha256_hash) + " " + str(xz_size) + " Packages.xz\n")
                 repo_settings = PackageLister.GetRepoSettings(self)
                 try:

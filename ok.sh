@@ -68,6 +68,14 @@ if [ -d docs/.git ]; then
 fi
 
 echo ""
+echo "正在提交本地更改..."
+git add .
+if git diff --cached --quiet; then
+    echo "没有需要提交的更改。"
+    exit 0
+fi
+git commit -m "$msg"
+
 echo "正在同步远程仓库..."
 git fetch "$REMOTE_NAME" "$BRANCH" 2>/dev/null || true
 if git rev-parse "$REMOTE_NAME/$BRANCH" &>/dev/null; then
@@ -80,12 +88,6 @@ if git rev-parse "$REMOTE_NAME/$BRANCH" &>/dev/null; then
 fi
 
 echo "正在推送到 $REPO_URL ..."
-git add .
-if git diff --cached --quiet; then
-    echo "没有需要提交的更改。"
-    exit 0
-fi
-git commit -m "$msg"
 git push -u "$REMOTE_NAME" "$BRANCH"
 
 if [ $? -eq 0 ]; then

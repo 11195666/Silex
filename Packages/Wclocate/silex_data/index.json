@@ -12,7 +12,6 @@
     "works_min": "15.0",
     "works_max": "18.0",
     "featured": "true",
-    "tint": "#07C160",
     "changelog": [
         {
             "version": "4.0.0",

@@ -104,7 +104,7 @@ Example:
 
 ```json
 {
-    "name": "My Silex Repo",
+    "name": "Silex",
     "description": "A customizable static repository generated with Silex.",
     "tint": "#27BEF5",
     "cname": "repo.example.com",

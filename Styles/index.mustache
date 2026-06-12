@@ -276,7 +276,13 @@
                     <h1>{{repo_name}}</h1>
                     <p class="hero-desc">{{repo_desc}}</p>
                     <div class="hero-meta">
-                        <span>{{package_count}} 个插件</span>
+                        <span>{{package_count}} packages</span>
+                        <span>Web + native depictions</span>
+                    </div>
+                    <div class="channel-pills">
+                        {{#channels}}
+                        <span class="channel-pill">{{name}} · {{count}}</span>
+                        {{/channels}}
                     </div>
                 </div>
                 <div class="actions">
@@ -284,7 +290,7 @@
                     <a class="btn btn-primary" href="sileo://source/https://{{repo_url}}">Add in Sileo</a>
                     <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://{{repo_url}}">Add in Cydia</a>
                     <a class="btn btn-secondary" href="zbra://sources/add/https://{{repo_url}}">Add in Zebra</a>
-                    <p class="actions-note">支持 Sileo / Cydia / Zebra 添加源。</p>
+                    <p class="actions-note">Add this repository in your preferred package manager.</p>
                 </div>
             </div>
         </section>
@@ -312,8 +318,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>推荐插件</h2>
-                    <p>精选插件展示。</p>
+                    <h2>Featured packages</h2>
+                    <p>Highlighted packages from this repository.</p>
                 </div>
             </div>
             <div class="featured-grid">
@@ -342,8 +348,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>浏览插件</h2>
-                    <p>按名称、开发者或 Bundle ID 搜索。</p>
+                    <h2>Browse packages</h2>
+                    <p>Search by package name, developer, or bundle identifier.</p>
                 </div>
             </div>
 
@@ -397,8 +403,8 @@
                                 {{/has_badges}}
                                 {{#has_package_tags}}
                                 <div class="package-tags">
-                                    {{#has_homepage}}<span class="tag">主页</span>{{/has_homepage}}
-                                    {{#has_source}}<span class="tag">源码</span>{{/has_source}}
+                                    {{#has_homepage}}<span class="tag">Homepage</span>{{/has_homepage}}
+                                    {{#has_source}}<span class="tag">Source</span>{{/has_source}}
                                 </div>
                                 {{/has_package_tags}}
                             </div>

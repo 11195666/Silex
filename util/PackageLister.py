@@ -1,5 +1,6 @@
 import json  # Used to parse various JSON files
 import os  # Used to navigate files so we know what tweak folders exist.
+import re
 from PIL import Image  # Used to get image screenshot size.
 
 
@@ -88,20 +89,51 @@ class PackageLister:
         """
         return os.path.isfile(self.PackageSourcePath(tweak_data, os.path.join("silex_data", "description.md")))
 
-    def PackageDescriptionPreview(self, tweak_data, max_length=180):
+    def _strip_markdown(self, text):
         """
-        Build a short plain-text preview from description.md, or fall back to tagline.
+        Reduce Markdown to plain text for short homepage summaries.
         """
-        description = tweak_data.get('tagline', '')
-        try:
-            with open(self.PackageSourcePath(tweak_data, os.path.join("silex_data", "description.md")), "r") as content_file:
-                description = content_file.read()
-        except Exception:
-            pass
+        text = re.sub(r'```.*?```', ' ', text, flags=re.DOTALL)
+        text = re.sub(r'`([^`]+)`', r'\1', text)
+        text = re.sub(r'!\[([^\]]*)\]\([^)]+\)', r'\1', text)
+        text = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', text)
+        text = re.sub(r'^#{1,6}\s+', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^\s*[-*+]\s+', '', text, flags=re.MULTILINE)
+        text = re.sub(r'^\s*\d+\.\s+', '', text, flags=re.MULTILINE)
+        text = re.sub(r'(\*\*|__|\*|_|~~)', '', text)
+        text = re.sub(r'^>\s+', '', text, flags=re.MULTILINE)
+        text = re.sub(r'\s+', ' ', text).strip()
+        return text
 
-        description = " ".join(description.replace("\r", " ").replace("\n", " ").split()).strip()
+    def _first_markdown_paragraph(self, text):
+        """
+        Return the first non-empty paragraph from a Markdown document.
+        """
+        for block in re.split(r'\n\s*\n', text.replace('\r\n', '\n')):
+            plain = self._strip_markdown(block)
+            if plain:
+                return plain
+        return self._strip_markdown(text)
+
+    def PackageDescriptionPreview(self, tweak_data, max_length=120):
+        """
+        Build a short plain-text preview for repo cards and listings.
+        Prefer tagline; otherwise extract the first paragraph from description.md.
+        """
+        tagline = tweak_data.get('tagline', '').strip()
+        if tagline:
+            description = tagline
+        else:
+            description = ''
+            try:
+                with open(self.PackageSourcePath(tweak_data, os.path.join("silex_data", "description.md")), "r") as content_file:
+                    description = self._first_markdown_paragraph(content_file.read())
+            except Exception:
+                pass
+
+        description = self._strip_markdown(description)
         if len(description) > max_length:
-            return description[:max_length - 1].rstrip() + "…"
+            return description[:max_length - 1].rstrip() + '…'
         return description
 
     def GetScreenshotSize(self, tweak_data):

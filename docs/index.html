@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=0">
-    <title>MJH Repo</title>
+    <title>Silex</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { color-scheme: light dark; }
@@ -16,7 +16,7 @@
         }
         .page { max-width: 1080px; margin: 0 auto; }
         .hero {
-            background: linear-gradient(135deg, #07C160, #7dd3fc);
+            background: linear-gradient(135deg, #27BEF5, #7dd3fc);
             color: #fff;
             border-radius: 28px;
             padding: 32px;
@@ -85,7 +85,7 @@
             text-align: center;
         }
         .btn:hover { opacity: 0.92; transform: translateY(-1px); }
-        .btn-primary { background: #fff; color: #07C160; }
+        .btn-primary { background: #fff; color: #27BEF5; }
         .btn-secondary {
             background: rgba(255,255,255,0.14);
             color: #fff;
@@ -112,7 +112,7 @@
             background: #fff;
             border-radius: 18px;
             padding: 18px;
-            border-left: 4px solid #07C160;
+            border-left: 4px solid #27BEF5;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .announcement.warning { border-left-color: #ff9f0a; }
@@ -142,7 +142,7 @@
             font-size: 12px;
             font-weight: 700;
             background: rgba(39, 190, 245, 0.1);
-            color: #07C160;
+            color: #27BEF5;
         }
         .featured-grid {
             display: grid;
@@ -265,7 +265,7 @@
             .package-icon { background: #2b2b2f; }
         }
     </style>
-    <meta name="theme-color" content="#07C160">
+    <meta name="theme-color" content="#27BEF5">
 </head>
 <body>
     <div class="page">
@@ -273,10 +273,14 @@
             <div class="hero-top">
                 <div class="brand">
                     <div class="badge">Silex static repo</div>
-                    <h1>MJH Repo</h1>
-                    <p class="hero-desc">junhong 的越狱插件源，提供微信相关 tweak 与实用工具。</p>
+                    <h1>Silex</h1>
+                    <p class="hero-desc">A customizable static repository generated with Silex.</p>
                     <div class="hero-meta">
-                        <span>2 个插件</span>
+                        <span>2 packages</span>
+                        <span>Web + native depictions</span>
+                    </div>
+                    <div class="channel-pills">
+                        <span class="channel-pill">Stable · 2</span>
                     </div>
                 </div>
                 <div class="actions">
@@ -284,7 +288,7 @@
                     <a class="btn btn-primary" href="sileo://source/https://repo.mjh.im">Add in Sileo</a>
                     <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.mjh.im">Add in Cydia</a>
                     <a class="btn btn-secondary" href="zbra://sources/add/https://repo.mjh.im">Add in Zebra</a>
-                    <p class="actions-note">支持 Sileo / Cydia / Zebra 添加源。</p>
+                    <p class="actions-note">Add this repository in your preferred package manager.</p>
                 </div>
             </div>
         </section>
@@ -293,8 +297,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>推荐插件</h2>
-                    <p>精选插件展示。</p>
+                    <h2>Featured packages</h2>
+                    <p>Highlighted packages from this repository.</p>
                 </div>
             </div>
             <div class="featured-grid">
@@ -303,7 +307,7 @@
                    data-status="active" data-channel="stable" data-env="" data-arch="iphoneos-arm64">
                     <div class="featured-content">
                         <h3>WCLocate</h3>
-                        <p># WCLocate 微信虚拟定位插件，在越狱环境下为微信提供可配置的虚拟位置能力。 ## 功能 - **地图选点** — 在地图上直接选择目标位置 - **地点搜索** — 按关键词搜索并快速定位 - **拖拽定位** — 拖动标记微调坐标 - **海拔伪装** — 同步模拟…</p>
+                        <p>微信虚拟定位插件 — 地图选点、地点搜索、拖拽定位、海拔伪装、坐标纠偏</p>
                     </div>
                 </a>
             </div>
@@ -312,8 +316,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>浏览插件</h2>
-                    <p>按名称、开发者或 Bundle ID 搜索。</p>
+                    <h2>Browse packages</h2>
+                    <p>Search by package name, developer, or bundle identifier.</p>
                 </div>
             </div>
 
@@ -354,7 +358,7 @@
                             <div class="package-main">
                                 <div class="package-name">WCLocate</div>
                                 <div class="package-meta">junhong · v4.0.0 · iOS 15.0–18.0</div>
-                                <div class="package-summary"># WCLocate 微信虚拟定位插件，在越狱环境下为微信提供可配置的虚拟位置能力。 ## 功能 - **地图选点** — 在地图上直接选择目标位置 - **地点搜索** — 按关键词搜索并快速定位 - **拖拽定位** — 拖动标记微调坐标 - **海拔伪装** — 同步模拟…</div>
+                                <div class="package-summary">微信虚拟定位插件 — 地图选点、地点搜索、拖拽定位、海拔伪装、坐标纠偏</div>
                             </div>
                         </div>
                     </a>
@@ -366,7 +370,7 @@
                             <div class="package-main">
                                 <div class="package-name">Example Package</div>
                                 <div class="package-meta">Example Developer · v1.0.0 · iOS 15.0–17.0</div>
-                                <div class="package-summary"># Example Package This is an example `description.md` file for Silex. Use this file as the main body of your package depiction. Unlike the…</div>
+                                <div class="package-summary">An example package used to demonstrate modern Silex metadata, compatibility labels, and depictions.</div>
                                 <div class="package-badges">
                                     <span class="tag active">Active</span>
                                     <span class="tag stable">Stable</span>
@@ -374,8 +378,8 @@
                                     <span class="tag">iphoneos-arm64, iphoneos-arm64e</span>
                                 </div>
                                 <div class="package-tags">
-                                    <span class="tag">主页</span>
-                                    <span class="tag">源码</span>
+                                    <span class="tag">Homepage</span>
+                                    <span class="tag">Source</span>
                                 </div>
                             </div>
                         </div>
@@ -386,7 +390,7 @@
             <div class="empty-state" id="empty-state">No packages match the current filters.</div>
         </section>
 
-        <div class="footer">MJH Repo · Updated 2026-06-12</div>
+        <div class="footer">Silex · Updated 2026-06-12</div>
     </div>
     <script src="web/index.js"></script>
     <script>repoSearchInit();</script>

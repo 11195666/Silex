@@ -11,6 +11,32 @@ from util.DpkgPy import DpkgPy
 import shutil  # Used to copy files
 
 
+def _rebuild_ar_archive(tmpdir, members, output_path):
+    """
+    Write a System V ar archive for Debian .deb files.
+    macOS BSD ar injects __.SYMDEF and breaks packages, so rebuild in Python.
+    """
+    with open(output_path, 'wb') as archive:
+        archive.write(b'!<arch>\n')
+        for name in members:
+            path = os.path.join(tmpdir, name)
+            with open(path, 'rb') as member_file:
+                data = member_file.read()
+            header = (
+                name.encode('ascii').ljust(16)[:16]
+                + str(int(os.path.getmtime(path))).encode('ascii').ljust(12)[:12]
+                + b'0     '
+                + b'0     '
+                + b'100644  '
+                + str(len(data)).encode('ascii').ljust(10)[:10]
+                + b'`\n'
+            )
+            archive.write(header)
+            archive.write(data)
+            if len(data) % 2 == 1:
+                archive.write(b'\n')
+
+
 def PatchDebControl(deb_path, replacements):
     """
     Patch control fields in a .deb using system tools (ar, zstd, tar).
@@ -90,9 +116,19 @@ def PatchDebControl(deb_path, replacements):
         except:
             pass
 
-        # 6. Rebuild ar archive (skip macOS resource fork files and temp dirs)
-        members = [f for f in os.listdir(tmpdir) if f not in ('control_dir',) and not f.startswith('._')]
-        subprocess.run(['ar', 'rc', deb_path] + members, cwd=tmpdir, check=True, capture_output=True)
+        # 6. Rebuild ar archive in deb member order
+        tmp_files = os.listdir(tmpdir)
+        members = []
+        if 'debian-binary' in tmp_files:
+            members.append('debian-binary')
+        for name in ('control.tar.gz', 'control.tar.xz', 'control.tar.zst'):
+            if name in tmp_files:
+                members.append(name)
+                break
+        for name in sorted(tmp_files):
+            if name.startswith('data.tar.'):
+                members.append(name)
+        _rebuild_ar_archive(tmpdir, members, deb_path)
 
     finally:
         shutil.rmtree(tmpdir)

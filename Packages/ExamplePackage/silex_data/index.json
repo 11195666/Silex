@@ -31,7 +31,7 @@
     "dependencies": "preferenceloader",
     "works_min": "15.0",
     "works_max": "17.0",
-    "featured": "true",
+    "featured": "false",
     "template_only": true,
     "source": "https://github.com/example/example-package",
     "tint": "#27BEF5",

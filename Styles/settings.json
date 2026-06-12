@@ -1,25 +1,12 @@
 {
-    "name": "My Silex Repo",
-    "description": "A customizable static repository generated with Silex.",
-    "tint": "#27BEF5",
+    "name": "MJH Repo",
+    "description": "junhong 的越狱插件源，提供微信相关 tweak 与实用工具。",
+    "tint": "#07C160",
     "cname": "repo.mjh.im",
     "maintainer": {
-        "name": "Repo Maintainer",
-        "email": "maintainer@example.com"
+        "name": "junhong",
+        "email": "62462559+11195666@users.noreply.github.com"
     },
-    "social": [
-        {
-            "name": "Project Homepage",
-            "url": "https://example.com"
-        }
-    ],
-    "announcements": [
-        {
-            "level": "warning",
-            "title": "Example compatibility notice",
-            "message": "Replace this announcement with repo-specific guidance such as RootHide vs Rootless installation rules."
-        }
-    ],
     "automatic_git": "false",
     "footer": "{{repo_name}} · Updated {{silex_compile_date}}",
     "enable_gpg": "false"

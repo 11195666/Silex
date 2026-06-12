@@ -51,43 +51,43 @@ class DepictionGenerator:
             return fallback
         return str(value).replace("_", " ").replace("-", " ").title()
 
+    def _list_field(self, package, field):
+        if field not in package:
+            return []
+        value = package.get(field, [])
+        if isinstance(value, str):
+            value = [value]
+        return [entry for entry in value if entry]
+
     def _normalize_package(self, tweak_data):
         package = dict(tweak_data)
+
+        package['show_status_badge'] = bool(tweak_data.get('status'))
+        package['show_channel_badge'] = bool(tweak_data.get('release_channel'))
         package['status'] = package.get('status', 'active')
         package['status_label'] = self._label_from_value(package['status'], 'Active')
         package['channel'] = package.get('release_channel', 'stable')
         package['channel_label'] = self._label_from_value(package['channel'], 'Stable')
 
-        install_env = package.get('install_env', [])
-        if isinstance(install_env, str):
-            install_env = [install_env]
-        package['install_env'] = [entry for entry in install_env if entry]
+        package['install_env'] = self._list_field(package, 'install_env')
         package['has_install_env'] = len(package['install_env']) > 0
-        package['install_env_text'] = " / ".join(package['install_env']) if package['install_env'] else "Unspecified"
+        package['install_env_text'] = " / ".join(package['install_env']) if package['install_env'] else ""
 
-        injection = package.get('injection', [])
-        if isinstance(injection, str):
-            injection = [injection]
-        package['injection'] = [entry for entry in injection if entry]
+        package['injection'] = self._list_field(package, 'injection')
         package['has_injection'] = len(package['injection']) > 0
-        package['injection_text'] = ", ".join(package['injection']) if package['injection'] else "Unspecified"
+        package['injection_text'] = ", ".join(package['injection']) if package['injection'] else ""
 
-        architectures = package.get('architectures') or []
-        if isinstance(architectures, str):
-            architectures = [architectures]
+        architectures = self._list_field(package, 'architectures')
         if not architectures:
             architecture = package.get('architecture')
             if architecture:
                 architectures = [architecture]
-        package['architectures'] = [entry for entry in architectures if entry]
-        package['has_architectures'] = len(package['architectures']) > 0
-        package['architectures_text'] = ", ".join(package['architectures']) if package['architectures'] else package.get('architecture', 'Unspecified')
+        package['architectures'] = architectures
+        package['show_arch_badge'] = bool(tweak_data.get('architectures')) and len(architectures) > 0
+        package['architectures_text'] = ", ".join(architectures) if architectures else package.get('architecture', '')
 
         for field in ('install_notes', 'known_conflicts', 'replaces_notice', 'search_keywords'):
-            value = package.get(field, [])
-            if isinstance(value, str):
-                value = [value]
-            package[field] = [entry for entry in value if entry]
+            package[field] = self._list_field(package, field)
             package['has_' + field] = len(package[field]) > 0
 
         social_entries = []
@@ -102,6 +102,18 @@ class DepictionGenerator:
         package['has_description_md'] = self.PackageLister.PackageHasDescription(package)
         package['summary'] = self.PackageLister.PackageDescriptionPreview(package, 140)
         package['compatibility_text'] = package['works_min'] + " to " + package['works_max']
+        package['has_badges'] = (
+            package['show_status_badge']
+            or package['show_channel_badge']
+            or package['has_install_env']
+            or package['show_arch_badge']
+        )
+        package['has_compat_matrix'] = (
+            package['has_install_env']
+            or package['has_injection']
+            or len(architectures) > 1
+        )
+        package['has_package_tags'] = package['has_homepage'] or package['has_source']
         package['search_blob'] = " ".join([
             package.get('name', ''),
             package.get('bundle_id', ''),
@@ -114,15 +126,32 @@ class DepictionGenerator:
         return package
 
     def _render_badges_html(self, package):
-        badges = [
-            '<span class="meta-badge meta-badge-{0}">{1}</span>'.format(package['status'], package['status_label']),
-            '<span class="meta-badge meta-badge-{0}">{1}</span>'.format(package['channel'], package['channel_label'])
-        ]
+        badges = []
+        if package['show_status_badge']:
+            badges.append('<span class="meta-badge meta-badge-{0}">{1}</span>'.format(package['status'], package['status_label']))
+        if package['show_channel_badge']:
+            badges.append('<span class="meta-badge meta-badge-{0}">{1}</span>'.format(package['channel'], package['channel_label']))
         if package['has_install_env']:
             badges.append('<span class="meta-badge">{0}</span>'.format(package['install_env_text']))
-        if package['has_architectures']:
+        if package['show_arch_badge']:
             badges.append('<span class="meta-badge">{0}</span>'.format(package['architectures_text']))
         return "".join(badges)
+
+    def _render_native_metadata_markdown(self, package):
+        lines = []
+        if package['show_status_badge']:
+            lines.append('**状态 Status**: {0}'.format(package['status_label']))
+        if package['show_channel_badge']:
+            lines.append('**渠道 Channel**: {0}'.format(package['channel_label']))
+        if package['has_install_env']:
+            lines.append('**环境 Environment**: {0}'.format(package['install_env_text']))
+        if package['has_injection']:
+            lines.append('**注入 Injection**: {0}'.format(package['injection_text']))
+        if package['show_arch_badge']:
+            lines.append('**架构 Architectures**: {0}'.format(package['architectures_text']))
+        if not lines:
+            return ''
+        return '  \n'.join(lines)
 
     def _render_info_list_html(self, title, items):
         if not items:
@@ -134,13 +163,20 @@ class DepictionGenerator:
         return "".join(rendered)
 
     def _render_compatibility_matrix_html(self, package):
-        blocks = [
-            ('Install Environment', package['install_env_text']),
-            ('Injection', package['injection_text']),
-            ('Architectures', package['architectures_text']),
-            ('Release Channel', package['channel_label'])
-        ]
-        html = ['<h3>兼容矩阵 Compatibility Matrix</h3><div class="matrix-grid">']
+        if not package.get('has_compat_matrix'):
+            return ""
+        blocks = []
+        if package['has_install_env']:
+            blocks.append(('Install Environment', package['install_env_text']))
+        if package['has_injection']:
+            blocks.append(('Injection', package['injection_text']))
+        if len(package['architectures']) > 1:
+            blocks.append(('Architectures', package['architectures_text']))
+        if package['show_channel_badge']:
+            blocks.append(('Release Channel', package['channel_label']))
+        if not blocks:
+            return ""
+        html = ['<h3>兼容信息 Compatibility</h3><div class="matrix-grid">']
         for title, text in blocks:
             html.append('<div class="matrix-item"><div class="matrix-title">{0}</div><div class="matrix-text">{1}</div></div>'.format(title, text))
         html.append('</div>')
@@ -197,6 +233,8 @@ class DepictionGenerator:
             replacements['has_tint'] = package['has_tint']
             replacements['has_description_md'] = package['has_description_md']
             replacements['social_entries'] = package['social_entries']
+            replacements['has_badges'] = package['has_badges']
+            replacements['has_compat_matrix'] = package['has_compat_matrix']
             replacements['support_badges_html'] = self._render_badges_html(package)
             replacements['compatibility_matrix_html'] = self._render_compatibility_matrix_html(package)
             replacements['install_notes_html'] = self._render_info_list_html('安装说明 Install Notes', package['install_notes'])
@@ -248,23 +286,21 @@ class DepictionGenerator:
                 'useSpacing': 'true',
                 'class': 'DepictionMarkdownView'
             },
-            {
-                'class': 'DepictionMarkdownView',
-                'markdown': '**Status**: {0}  \n**Channel**: {1}  \n**Environment**: {2}  \n**Injection**: {3}  \n**Architectures**: {4}'.format(
-                    package['status_label'],
-                    package['channel_label'],
-                    package['install_env_text'],
-                    package['injection_text'],
-                    package['architectures_text']
-                )
-            },
-            {'class': 'DepictionSpacerView'},
             {'class': 'DepictionHeaderView', 'title': '插件信息 Info'},
             {'class': 'DepictionTableTextView', 'title': '开发者 Developer', 'text': package['developer']['name']},
             {'class': 'DepictionTableTextView', 'title': '版本 Version', 'text': package['version']},
             {'class': 'DepictionTableTextView', 'title': '兼容性 Compatibility', 'text': package['works_min'] + ' 至 ' + package['works_max']},
             {'class': 'DepictionTableTextView', 'title': '分类 Section', 'text': package['section']}
         ]
+
+        metadata_markdown = self._render_native_metadata_markdown(package)
+        if metadata_markdown:
+            info_views.extend([
+                {'class': 'DepictionMarkdownView', 'markdown': metadata_markdown},
+                {'class': 'DepictionSpacerView'}
+            ])
+        else:
+            info_views.append({'class': 'DepictionSpacerView'})
 
         for note_group in (
             ('安装说明 Install Notes', package['install_notes']),

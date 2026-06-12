@@ -276,14 +276,7 @@
                     <h1>{{repo_name}}</h1>
                     <p class="hero-desc">{{repo_desc}}</p>
                     <div class="hero-meta">
-                        <span>{{package_count}} packages</span>
-                        <span>Web + native depictions</span>
-                        <span>Compatibility-aware metadata</span>
-                    </div>
-                    <div class="channel-pills">
-                        {{#channels}}
-                        <span class="channel-pill">{{name}} · {{count}}</span>
-                        {{/channels}}
+                        <span>{{package_count}} 个插件</span>
                     </div>
                 </div>
                 <div class="actions">
@@ -291,7 +284,7 @@
                     <a class="btn btn-primary" href="sileo://source/https://{{repo_url}}">Add in Sileo</a>
                     <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://{{repo_url}}">Add in Cydia</a>
                     <a class="btn btn-secondary" href="zbra://sources/add/https://{{repo_url}}">Add in Zebra</a>
-                    <p class="actions-note">Packages can expose status, release channel, install environment, architecture, installation notes, known conflicts, migration notices, screenshots, changelogs, and source links.</p>
+                    <p class="actions-note">支持 Sileo / Cydia / Zebra 添加源。</p>
                 </div>
             </div>
         </section>
@@ -319,8 +312,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>Featured packages</h2>
-                    <p>Highlighted packages with banners, summaries, compatibility tags, and status badges.</p>
+                    <h2>推荐插件</h2>
+                    <p>精选插件展示。</p>
                 </div>
             </div>
             <div class="featured-grid">
@@ -331,11 +324,14 @@
                     <div class="featured-content">
                         <h3>{{name}}</h3>
                         <p>{{summary}}</p>
+                        {{#has_badges}}
                         <div class="featured-badges">
-                            <span class="meta-badge {{status}}">{{status_label}}</span>
-                            <span class="meta-badge {{channel}}">{{channel_label}}</span>
+                            {{#show_status_badge}}<span class="meta-badge {{status}}">{{status_label}}</span>{{/show_status_badge}}
+                            {{#show_channel_badge}}<span class="meta-badge {{channel}}">{{channel_label}}</span>{{/show_channel_badge}}
                             {{#has_install_env}}<span class="meta-badge">{{install_env_text}}</span>{{/has_install_env}}
+                            {{#show_arch_badge}}<span class="meta-badge">{{architectures_text}}</span>{{/show_arch_badge}}
                         </div>
+                        {{/has_badges}}
                     </div>
                 </a>
                 {{/featured_packages}}
@@ -346,8 +342,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>Browse packages</h2>
-                    <p>Search by package name, bundle identifier, developer, section, environment, or architecture.</p>
+                    <h2>浏览插件</h2>
+                    <p>按名称、开发者或 Bundle ID 搜索。</p>
                 </div>
             </div>
 
@@ -391,17 +387,20 @@
                                 <div class="package-name">{{name}}</div>
                                 <div class="package-meta">{{developer.name}} · v{{version}} · iOS {{works_min}}–{{works_max}}</div>
                                 <div class="package-summary">{{summary}}</div>
+                                {{#has_badges}}
                                 <div class="package-badges">
-                                    <span class="tag {{status}}">{{status_label}}</span>
-                                    <span class="tag {{channel}}">{{channel_label}}</span>
+                                    {{#show_status_badge}}<span class="tag {{status}}">{{status_label}}</span>{{/show_status_badge}}
+                                    {{#show_channel_badge}}<span class="tag {{channel}}">{{channel_label}}</span>{{/show_channel_badge}}
                                     {{#has_install_env}}<span class="tag">{{install_env_text}}</span>{{/has_install_env}}
-                                    {{#has_architectures}}<span class="tag">{{architectures_text}}</span>{{/has_architectures}}
+                                    {{#show_arch_badge}}<span class="tag">{{architectures_text}}</span>{{/show_arch_badge}}
                                 </div>
+                                {{/has_badges}}
+                                {{#has_package_tags}}
                                 <div class="package-tags">
-                                    {{#has_description_md}}<span class="tag">Markdown description</span>{{/has_description_md}}
-                                    {{#has_homepage}}<span class="tag">Homepage</span>{{/has_homepage}}
-                                    {{#has_source}}<span class="tag">Source</span>{{/has_source}}
+                                    {{#has_homepage}}<span class="tag">主页</span>{{/has_homepage}}
+                                    {{#has_source}}<span class="tag">源码</span>{{/has_source}}
                                 </div>
+                                {{/has_package_tags}}
                             </div>
                         </div>
                     </a>

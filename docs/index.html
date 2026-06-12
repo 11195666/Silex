@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=0">
-    <title>My Silex Repo</title>
+    <title>MJH Repo</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { color-scheme: light dark; }
@@ -16,7 +16,7 @@
         }
         .page { max-width: 1080px; margin: 0 auto; }
         .hero {
-            background: linear-gradient(135deg, #27BEF5, #7dd3fc);
+            background: linear-gradient(135deg, #07C160, #7dd3fc);
             color: #fff;
             border-radius: 28px;
             padding: 32px;
@@ -85,7 +85,7 @@
             text-align: center;
         }
         .btn:hover { opacity: 0.92; transform: translateY(-1px); }
-        .btn-primary { background: #fff; color: #27BEF5; }
+        .btn-primary { background: #fff; color: #07C160; }
         .btn-secondary {
             background: rgba(255,255,255,0.14);
             color: #fff;
@@ -112,7 +112,7 @@
             background: #fff;
             border-radius: 18px;
             padding: 18px;
-            border-left: 4px solid #27BEF5;
+            border-left: 4px solid #07C160;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .announcement.warning { border-left-color: #ff9f0a; }
@@ -142,7 +142,7 @@
             font-size: 12px;
             font-weight: 700;
             background: rgba(39, 190, 245, 0.1);
-            color: #27BEF5;
+            color: #07C160;
         }
         .featured-grid {
             display: grid;
@@ -265,7 +265,7 @@
             .package-icon { background: #2b2b2f; }
         }
     </style>
-    <meta name="theme-color" content="#27BEF5">
+    <meta name="theme-color" content="#07C160">
 </head>
 <body>
     <div class="page">
@@ -273,15 +273,10 @@
             <div class="hero-top">
                 <div class="brand">
                     <div class="badge">Silex static repo</div>
-                    <h1>My Silex Repo</h1>
-                    <p class="hero-desc">A customizable static repository generated with Silex.</p>
+                    <h1>MJH Repo</h1>
+                    <p class="hero-desc">junhong 的越狱插件源，提供微信相关 tweak 与实用工具。</p>
                     <div class="hero-meta">
-                        <span>1 packages</span>
-                        <span>Web + native depictions</span>
-                        <span>Compatibility-aware metadata</span>
-                    </div>
-                    <div class="channel-pills">
-                        <span class="channel-pill">Stable · 1</span>
+                        <span>2 个插件</span>
                     </div>
                 </div>
                 <div class="actions">
@@ -289,45 +284,26 @@
                     <a class="btn btn-primary" href="sileo://source/https://repo.mjh.im">Add in Sileo</a>
                     <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.mjh.im">Add in Cydia</a>
                     <a class="btn btn-secondary" href="zbra://sources/add/https://repo.mjh.im">Add in Zebra</a>
-                    <p class="actions-note">Packages can expose status, release channel, install environment, architecture, installation notes, known conflicts, migration notices, screenshots, changelogs, and source links.</p>
+                    <p class="actions-note">支持 Sileo / Cydia / Zebra 添加源。</p>
                 </div>
             </div>
         </section>
 
-        <section class="section">
-            <div class="section-head">
-                <div>
-                    <h2>Announcements</h2>
-                    <p>Repo-wide notices, compatibility warnings, and migration guidance.</p>
-                </div>
-            </div>
-            <div class="announcement-list">
-                <div class="announcement warning">
-                    <div class="announcement-title">Example compatibility notice</div>
-                    <div>Replace this announcement with repo-specific guidance such as RootHide vs Rootless installation rules.</div>
-                </div>
-            </div>
-        </section>
 
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>Featured packages</h2>
-                    <p>Highlighted packages with banners, summaries, compatibility tags, and status badges.</p>
+                    <h2>推荐插件</h2>
+                    <p>精选插件展示。</p>
                 </div>
             </div>
             <div class="featured-grid">
-                <a class="featured-card package-entry" href="depiction/web/com.example.package.html" style="background-image: url(assets/com.example.package/banner.png)"
-                   data-name="Example Package" data-bundle="com.example.package" data-developer="Example Developer" data-section="Tweaks"
-                   data-status="active" data-channel="stable" data-env="rootless / roothide" data-arch="iphoneos-arm64, iphoneos-arm64e">
+                <a class="featured-card package-entry" href="depiction/web/im.mjh.wclocate.html" style="background-image: url(assets/im.mjh.wclocate/banner.png)"
+                   data-name="WCLocate" data-bundle="im.mjh.wclocate" data-developer="junhong" data-section="Tweaks"
+                   data-status="active" data-channel="stable" data-env="" data-arch="iphoneos-arm64">
                     <div class="featured-content">
-                        <h3>Example Package</h3>
-                        <p># Example Package This is an example `description.md` file for Silex. Use this file as the main body of your package depiction. Unlike the…</p>
-                        <div class="featured-badges">
-                            <span class="meta-badge active">Active</span>
-                            <span class="meta-badge stable">Stable</span>
-                            <span class="meta-badge">rootless / roothide</span>
-                        </div>
+                        <h3>WCLocate</h3>
+                        <p># WCLocate 微信虚拟定位插件，在越狱环境下为微信提供可配置的虚拟位置能力。 ## 功能 - **地图选点** — 在地图上直接选择目标位置 - **地点搜索** — 按关键词搜索并快速定位 - **拖拽定位** — 拖动标记微调坐标 - **海拔伪装** — 同步模拟…</p>
                     </div>
                 </a>
             </div>
@@ -336,8 +312,8 @@
         <section class="section">
             <div class="section-head">
                 <div>
-                    <h2>Browse packages</h2>
-                    <p>Search by package name, bundle identifier, developer, section, environment, or architecture.</p>
+                    <h2>浏览插件</h2>
+                    <p>按名称、开发者或 Bundle ID 搜索。</p>
                 </div>
             </div>
 
@@ -370,6 +346,18 @@
             <div class="section-block package-section" data-section-name="Tweaks">
                 <h3 class="section-title">Tweaks</h3>
                 <div class="package-list">
+                    <a class="package-card package-entry" href="depiction/web/im.mjh.wclocate.html"
+                       data-name="WCLocate" data-bundle="im.mjh.wclocate" data-developer="junhong" data-section="Tweaks"
+                       data-status="active" data-channel="stable" data-env="" data-arch="iphoneos-arm64">
+                        <div class="package-card-top">
+                            <img class="package-icon" src="assets/im.mjh.wclocate/icon.png" alt="WCLocate">
+                            <div class="package-main">
+                                <div class="package-name">WCLocate</div>
+                                <div class="package-meta">junhong · v4.0.0 · iOS 15.0–18.0</div>
+                                <div class="package-summary"># WCLocate 微信虚拟定位插件，在越狱环境下为微信提供可配置的虚拟位置能力。 ## 功能 - **地图选点** — 在地图上直接选择目标位置 - **地点搜索** — 按关键词搜索并快速定位 - **拖拽定位** — 拖动标记微调坐标 - **海拔伪装** — 同步模拟…</div>
+                            </div>
+                        </div>
+                    </a>
                     <a class="package-card package-entry" href="depiction/web/com.example.package.html"
                        data-name="Example Package" data-bundle="com.example.package" data-developer="Example Developer" data-section="Tweaks"
                        data-status="active" data-channel="stable" data-env="rootless / roothide" data-arch="iphoneos-arm64, iphoneos-arm64e">
@@ -386,9 +374,8 @@
                                     <span class="tag">iphoneos-arm64, iphoneos-arm64e</span>
                                 </div>
                                 <div class="package-tags">
-                                    <span class="tag">Markdown description</span>
-                                    <span class="tag">Homepage</span>
-                                    <span class="tag">Source</span>
+                                    <span class="tag">主页</span>
+                                    <span class="tag">源码</span>
                                 </div>
                             </div>
                         </div>
@@ -399,7 +386,7 @@
             <div class="empty-state" id="empty-state">No packages match the current filters.</div>
         </section>
 
-        <div class="footer">My Silex Repo · Updated 2026-06-12</div>
+        <div class="footer">MJH Repo · Updated 2026-06-12</div>
     </div>
     <script src="web/index.js"></script>
     <script>repoSearchInit();</script>

@@ -1,0 +1,16 @@
+Package: im.mjh.wclocate
+Version: 4.0.0
+Architecture: iphoneos-arm64
+Maintainer: junhong
+Installed-Size: 272
+Depends: mobilesubstrate, firmware (>= 15.0)
+Filename: ./pkg/im.mjh.wclocate.deb
+Size: 34768
+MD5sum: 0c0c0e71cf6555c329602f00bbbff9b3
+SHA1: 753a7bbcd4d4fe0b3d84bf1f7fe0cd7934ce31c9
+SHA256: fb3e7bdd4cf09181dd229e5000c3008a8b369114b0cfa35b7a1b14565fb2367c
+Section: Tweaks
+Description: 微信虚拟定位插件 — 地图选点、地点搜索、拖拽定位、海拔伪装、坐标纠偏
+Author: junhong
+Name: WCLocate
+

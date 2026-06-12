@@ -1,13 +1,13 @@
-Origin: My Silex Repo
-Label: My Silex Repo
+Origin: MJH Repo
+Label: MJH Repo
 Suite: stable
 Version: 1.0
 Codename: ios
 Architectures: iphoneos-arm64
 Components: main
-Description: A customizable static repository generated with Silex.
+Description: junhong 的越狱插件源，提供微信相关 tweak 与实用工具。
 
 SHA256:
- e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 0 Packages
- d3dda84eb03b9738d118eb2be78e246106900493c0ae07819ad60815134a8058 14 Packages.bz2
- 0040f94d11d0039505328a90b2ff48968db873e9e7967307631bf40ef5679275 32 Packages.xz
+ e87ecb817d6dbcbb2d9e17dc8a2094ac32d10ada3a1ed3d336349a650af08721 526 Packages
+ c51831fda4a548249d98e5d840e506d57da1856f2910a158dd41568181ea9720 490 Packages.bz2
+ 30e1aaa441fa3e0b7e51e4527bb718a1e2506bdec60d24f591d9bcba0e1c247f 492 Packages.xz

@@ -1,0 +1,28 @@
+{
+    "bundle_id": "im.mjh.wclocate",
+    "name": "WCLocate",
+    "version": "4.0.0",
+    "tagline": "微信虚拟定位插件 — 地图选点、地点搜索、拖拽定位、海拔伪装、坐标纠偏",
+    "developer": {
+        "name": "junhong"
+    },
+    "section": "Tweaks",
+    "architecture": "iphoneos-arm64",
+    "dependencies": "mobilesubstrate, firmware (>= 15.0)",
+    "works_min": "15.0",
+    "works_max": "18.0",
+    "featured": "true",
+    "tint": "#07C160",
+    "changelog": [
+        {
+            "version": "4.0.0",
+            "changes": {
+                "new": [
+                    "地图选点与地点搜索定位",
+                    "支持拖拽调整位置",
+                    "海拔伪装与坐标纠偏"
+                ]
+            }
+        }
+    ]
+}

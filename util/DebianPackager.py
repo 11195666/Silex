@@ -655,7 +655,7 @@ class DebianPackager(object):
         # Generate Packages.zst for Sileo 2.5+ (preferred format)
         import shutil as _shutil
         if _shutil.which("zstd"):
-            call(["zstd", "-f", "-19", "Packages", "-o", "Packages.zst"], cwd=self.root + "docs/")
+            call(["zstd", "--single-thread", "-f", "-19", "Packages", "-o", "Packages.zst"], cwd=self.root + "docs/")
 
     def SignRelease(self):
         """

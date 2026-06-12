@@ -2,7 +2,29 @@
 
 Silex is a static APT repository generator for jailbroken iOS package feeds.
 
+在线 Demo：[repo.mjh.im](https://repo.mjh.im) | 中文文档：[README_zh.md](README_zh.md)
+
 Forked from [Silica](https://github.com/Shugabuga/Silica), Silex is a more modern repo template for public or private jailbreak feeds: it keeps the original static-hosting model, but adds stronger package metadata, richer depictions, better compatibility signaling, lightweight APIs, featured package presentation, repo announcements, and searchable package browsing.
+
+> 详细二开改动说明见 [ENHANCEMENTS.md](ENHANCEMENTS.md)。
+
+## Demo
+
+在线源地址：**[repo.mjh.im](https://repo.mjh.im)**
+
+直接在 Sileo / Cydia / Zebra 中添加 `https://repo.mjh.im` 即可查看效果。
+
+## Screenshots
+
+| 首页 | 插件详情 |
+|------|---------|
+| ![首页](screenshots/homepage.png) | ![详情](screenshots/depiction.png) |
+
+| Sileo 原生描绘 | 更新日志 |
+|------|---------|
+| ![原生](screenshots/native.png) | ![更新日志](screenshots/changelog.png) |
+
+> 截图请放置到 `screenshots/` 目录下。
 
 ## What this fork focuses on
 

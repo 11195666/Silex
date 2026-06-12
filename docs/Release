@@ -8,6 +8,6 @@ Components: main
 Description: A customizable static repository generated with Silex.
 
 SHA256:
- f45e25b70d7f4cdaac7cb63fd679ab7402087bdfad607229a01fd119101da078 526 Packages
- adbdbc0f22cc6e2bf0831d54f49ed61cb1ec391c698d53d75a94298db33e1d66 479 Packages.bz2
- b746c763ee52f67466bfe0913832f47453b58ee678aa8ee3391469b17d66e7f3 488 Packages.xz
+ 32437b444b902dd30511eeb008810a26ddc68f963f6cfb017d5d127ba269b5c4 526 Packages
+ 4aa323274c2a785ae536432aacc30cbcd0d922bf4626dd29e2229baa8e1f2152 486 Packages.bz2
+ fbc30143645d393589ced8fd3a935a992166fb3d6fd3d111fbcdab3013149c62 488 Packages.xz

@@ -7,8 +7,7 @@
     <link rel="stylesheet" type="text/css" href="../../web/index.css">
     <style>
         a, .tint, .table-btn:after { color: #27BEF5; }
-        .active { color: #27BEF5; border-bottom: 2px solid #27BEF5; }
-        .hero-chip, .meta-badge {
+        .meta-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
@@ -16,11 +15,6 @@
             border-radius: 999px;
             font-size: 12px;
             font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .hero-chip {
-            background: rgba(255,255,255,0.86);
-            color: #27BEF5;
         }
         .badge-group {
             display: flex;
@@ -31,13 +25,43 @@
         .meta-badge {
             background: rgba(0,0,0,0.05);
             color: inherit;
-            margin-bottom: 0;
         }
         .meta-badge-stable { background: rgba(48, 209, 88, 0.14); color: #30d158; }
         .meta-badge-beta { background: rgba(255, 159, 10, 0.14); color: #ff9f0a; }
         .meta-badge-experimental { background: rgba(191, 90, 242, 0.14); color: #bf5af2; }
         .meta-badge-deprecated { background: rgba(255, 69, 58, 0.14); color: #ff453a; }
         .meta-badge-nightly { background: rgba(90, 200, 250, 0.14); color: #5ac8fa; }
+        /* Tabs styling */
+        .nav {
+            display: flex;
+            margin: 20px 0;
+            background: rgba(0,0,0,0.04);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+        }
+        .nav_btn {
+            flex: 1;
+            text-align: center;
+            color: #8e8e93;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: none;
+        }
+        .nav_btn.active {
+            background: #fff;
+            color: #27BEF5;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-bottom: none;
+        }
+        .nav_btn:not(.active):hover {
+            color: #3c3c43;
+            background: rgba(0,0,0,0.03);
+        }
         .summary-box {
             background: rgba(0,0,0,0.03);
             border-radius: 16px;
@@ -95,19 +119,94 @@
             margin-bottom: 6px;
         }
         .matrix-text { font-size: 14px; }
+        /* Changelog card styling */
+        .changelog_entry {
+            background: rgba(0,0,0,0.03);
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 14px;
+        }
+        .changelog_entry h4 {
+            font-size: 15px;
+            font-weight: 700;
+            color: #27BEF5;
+            margin-bottom: 10px;
+        }
+        /* Description markdown beautification */
+        .md_view h1 {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 18px 0 10px;
+        }
+        .md_view h2 {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 16px 0 8px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        .md_view h3 {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 14px 0 6px;
+        }
+        .md_view p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #3c3c43;
+            margin: 8px 0;
+        }
+        .md_view ul, .md_view ol {
+            padding-left: 20px;
+            margin: 8px 0;
+        }
+        .md_view li {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #3c3c43;
+            margin-bottom: 4px;
+        }
+        .md_view code {
+            background: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 5px;
+            font-size: 13px;
+            font-family: "SF Mono", Menlo, monospace;
+        }
+        .md_view strong {
+            font-weight: 700;
+        }
         @media (prefers-color-scheme: dark) {
-            .hero-chip {
-                background: rgba(28,28,30,0.92);
+            .nav {
+                background: rgba(255,255,255,0.06);
+            }
+            .nav_btn.active {
+                background: rgba(255,255,255,0.12);
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            }
+            .nav_btn:not(.active):hover {
+                color: #d2d2d7;
+                background: rgba(255,255,255,0.04);
             }
             .summary-box,
             .social-pill,
             .info-list-item,
             .matrix-item,
-            .meta-badge {
+            .meta-badge,
+            .changelog_entry {
                 background: rgba(255,255,255,0.08);
             }
             .meta-note, .matrix-title {
                 color: #98989d;
+            }
+            .md_view p, .md_view li {
+                color: #d2d2d7;
+            }
+            .md_view h2 {
+                border-bottom-color: rgba(255,255,255,0.1);
+            }
+            .md_view code {
+                background: rgba(255,255,255,0.1);
             }
         }
     </style>
@@ -128,7 +227,6 @@
         <div class="package package_head">
             <img src="../../assets/im.mjh.wclocate/icon.png">
             <div class="package_info">
-                <div class="hero-chip">Tweaks · v4.0.0</div>
                 <h1 class="package_name">WCLocate</h1>
                 <p class="package_caption">junhong</p>
                 
@@ -139,7 +237,6 @@
             <div class="nav_btn changelog_btn" onclick="swap('.tweak_info','.changelog');">更新日志 Changelog</div>
         </div>
         <div class="tweak_info">
-            <p class="compatibility"><b>兼容性 Compatibility：</b>本插件兼容 iOS 15.0 to 18.0。</p>
             
             <div class="summary-box">微信虚拟定位插件 — 地图选点、地点搜索、拖拽定位、海拔伪装、坐标纠偏</div>
             <div class="md_view"><h1>WCLocate</h1>

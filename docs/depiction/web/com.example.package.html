@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=0">
+    <title>Example Package</title>
+    <link rel="stylesheet" type="text/css" href="../../web/index.css">
+    <style>
+        a, .tint, .table-btn:after { color: #27BEF5; }
+        .active { color: #27BEF5; border-bottom: 2px solid #27BEF5; }
+        .hero-chip, .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .hero-chip {
+            background: rgba(255,255,255,0.86);
+            color: #27BEF5;
+        }
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 6px;
+        }
+        .meta-badge {
+            background: rgba(0,0,0,0.05);
+            color: inherit;
+            margin-bottom: 0;
+        }
+        .meta-badge-stable { background: rgba(48, 209, 88, 0.14); color: #30d158; }
+        .meta-badge-beta { background: rgba(255, 159, 10, 0.14); color: #ff9f0a; }
+        .meta-badge-experimental { background: rgba(191, 90, 242, 0.14); color: #bf5af2; }
+        .meta-badge-deprecated { background: rgba(255, 69, 58, 0.14); color: #ff453a; }
+        .meta-badge-nightly { background: rgba(90, 200, 250, 0.14); color: #5ac8fa; }
+        .summary-box {
+            background: rgba(0,0,0,0.03);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 14px 0 10px;
+            line-height: 1.7;
+        }
+        .table { margin-bottom: 10px; }
+        .resource-grid, .info-list, .badge-row {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .social-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.05);
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .meta-note {
+            color: #8e8e93;
+            font-size: 13px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+        .info-list-item, .matrix-item {
+            background: rgba(0,0,0,0.03);
+            border-radius: 14px;
+            padding: 12px 14px;
+            line-height: 1.65;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 14px;
+        }
+        .matrix-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #8e8e93;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+        .matrix-text { font-size: 14px; }
+        @media (prefers-color-scheme: dark) {
+            .hero-chip {
+                background: rgba(28,28,30,0.92);
+            }
+            .summary-box,
+            .social-pill,
+            .info-list-item,
+            .matrix-item,
+            .meta-badge {
+                background: rgba(255,255,255,0.08);
+            }
+            .meta-note, .matrix-title {
+                color: #98989d;
+            }
+        }
+    </style>
+    <script src="../../web/index.js"></script>
+    <meta name="description" content="Example Package by Example Developer · 15.0 to 17.0">
+    <meta property="og:title" content="Example Package">
+    <meta property="og:description" content="Example Package by Example Developer · 15.0 to 17.0">
+    <meta property="og:image" content="../../assets/com.example.package/banner.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Example Package">
+    <meta name="twitter:description" content="Example Package by Example Developer · 15.0 to 17.0">
+    <meta name="twitter:image" content="https://repo.example.com/assets/com.example.package/banner.png">
+    <meta name="theme-color" content="#27BEF5">
+</head>
+<body>
+    <div class="body">
+        <div style="background-image: url(../../assets/com.example.package/banner.png)" class="banner_underlay"></div>
+        <div class="package package_head">
+            <img src="../../assets/com.example.package/icon.png">
+            <div class="package_info">
+                <div class="hero-chip">Tweaks · v1.0.0</div>
+                <h1 class="package_name">Example Package</h1>
+                <p class="package_caption">Example Developer</p>
+                <div class="badge-group"><span class="meta-badge meta-badge-active">Active</span><span class="meta-badge meta-badge-stable">Stable</span><span class="meta-badge">rootless / roothide</span><span class="meta-badge">iphoneos-arm64, iphoneos-arm64e</span></div>
+            </div>
+        </div>
+        <div class="nav">
+            <div class="nav_btn active tweak_info_btn" onclick="swap('.changelog','.tweak_info');">详情 Details</div>
+            <div class="nav_btn changelog_btn" onclick="swap('.tweak_info','.changelog');">更新日志 Changelog</div>
+        </div>
+        <div class="tweak_info">
+            <p class="compatibility"><b>兼容性 Compatibility：</b>本插件兼容 iOS 15.0 to 17.0。</p>
+            
+            <div class="summary-box">An example package used to demonstrate modern Silex metadata, compatibility labels, and depictions.</div>
+            <div class="md_view"><h1>Example Package</h1>
+<p>This is an example <code>description.md</code> file for Silex.</p>
+<p>Use this file as the main body of your package depiction. Unlike the short <code>tagline</code> in <code>index.json</code>, this Markdown document can contain a richer introduction, feature list, compatibility notes, setup instructions, migration guidance, and support information.</p>
+<h2>What this example demonstrates</h2>
+<ul>
+<li>Stable release channel metadata</li>
+<li>Active package status labeling</li>
+<li>Rootless and Roothide install environment tags</li>
+<li>ElleKit injection labeling</li>
+<li>Installation notes and known conflicts</li>
+<li>Migration and replacement notices</li>
+<li>Structured changelog rendering</li>
+<li>Homepage, source link, and social link support</li>
+</ul>
+<h2>Suggested real-world usage</h2>
+<p>Write this file as the main public landing page for your package:</p>
+<ul>
+<li>Explain what the tweak or app does</li>
+<li>Call out supported jailbreak environments</li>
+<li>Add setup instructions and known caveats</li>
+<li>Describe upgrade paths from older builds</li>
+<li>Link users to support, source, or issue trackers</li>
+</ul>
+<h2>Compatibility example</h2>
+<ul>
+<li>Environment: Rootless / Roothide</li>
+<li>Injection: ElleKit</li>
+<li>Architectures: <code>iphoneos-arm64</code>, <code>iphoneos-arm64e</code></li>
+<li>Supported iOS: 15.0–17.0</li>
+</ul>
+<p>Replace this file with your own package description when creating a real repo.</p>
+</div>
+            <h3>兼容矩阵 Compatibility Matrix</h3><div class="matrix-grid"><div class="matrix-item"><div class="matrix-title">Install Environment</div><div class="matrix-text">rootless / roothide</div></div><div class="matrix-item"><div class="matrix-title">Injection</div><div class="matrix-text">ellekit</div></div><div class="matrix-item"><div class="matrix-title">Architectures</div><div class="matrix-text">iphoneos-arm64, iphoneos-arm64e</div></div><div class="matrix-item"><div class="matrix-title">Release Channel</div><div class="matrix-text">Stable</div></div></div>
+            <h3>安装说明 Install Notes</h3><div class="info-list"><div class="info-list-item">Choose the Roothide build only if your jailbreak environment requires it.</div><div class="info-list-item">Restart the target app after changing settings.</div><div class="info-list-item">Import the included demo configuration after first install if you want sample data.</div></div>
+            <h3>已知冲突 Known Conflicts</h3><div class="info-list"><div class="info-list-item">Do not install together with ExampleConflict.</div><div class="info-list-item">Disable old legacy hooks before upgrading from rootful-era builds.</div></div>
+            <h3>迁移与替代 Migration & Replacement</h3><div class="info-list"><div class="info-list-item">This example replaces the older com.example.package.legacy layout.</div><div class="info-list-item">Rootful users should migrate to the dedicated compatibility branch instead.</div></div>
+            <h3>插件信息 Info</h3>
+            <div class="table">
+                <div class="cell">
+                    <div class="title">开发者 Developer</div>
+                    <div class="text">Example Developer</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">版本 Version</div>
+                    <div class="text">1.0.0</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">兼容性 Compatibility</div>
+                    <div class="text">15.0 to 17.0</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">分类 Section</div>
+                    <div class="text">Tweaks</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">描述来源 Description</div>
+                    <div class="text">Markdown</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">主题色 Tint</div>
+                    <div class="text">Package-specific</div>
+                    <br><br>
+                </div>
+            </div>
+            <div class="resource-grid">
+                <a href="https://example.com" class="table-btn"><div>项目主页 Homepage</div></a>
+                <a href="https://github.com/example/example-package" class="table-btn"><div>源代码 Source Code</div></a>
+            </div>
+            <h3>开发者链接 Links</h3>
+            <div class="social-links">
+                <a href="https://example.com" class="social-pill">Website</a>
+                <a href="https://github.com/example" class="social-pill">GitHub</a>
+            </div>
+            <p class="meta-note">Silex supports rich package metadata including release channels, package status, install environments, compatibility matrices, install notes, known conflicts, migration notices, Markdown descriptions, per-package tint colors, homepage/source links, and changelog tabs.</p>
+        </div>
+        <div class="changelog">
+            <div class="changelog_entry">
+                <h4>1.0.0</h4>
+                <div class="md_view"><p><strong>New</strong></p>
+<ul>
+<li>Added example metadata for status, release channel, install environments, and compatibility display.</li>
+<li>Added demo install notes, conflict warnings, and migration notices.</li>
+</ul>
+<p><strong>Improve</strong></p>
+<ul>
+<li>Improved package depiction examples for modern Silex repos.</li>
+</ul>
+</div>
+            </div>
+        </div>
+        <div class="caption center footer">My Silex Repo · Updated 2026-06-12</div>
+    </div>
+</body>
+<script>compatible("15.0","17.0","15.0 to 17.0");externalize()</script>
+</html>

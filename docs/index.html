@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=0">
-    <title>{{repo_name}}</title>
+    <title>My Silex Repo</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         :root { color-scheme: light dark; }
@@ -16,7 +16,7 @@
         }
         .page { max-width: 1080px; margin: 0 auto; }
         .hero {
-            background: linear-gradient(135deg, {{tint_color}}, #7dd3fc);
+            background: linear-gradient(135deg, #27BEF5, #7dd3fc);
             color: #fff;
             border-radius: 28px;
             padding: 32px;
@@ -85,7 +85,7 @@
             text-align: center;
         }
         .btn:hover { opacity: 0.92; transform: translateY(-1px); }
-        .btn-primary { background: #fff; color: {{tint_color}}; }
+        .btn-primary { background: #fff; color: #27BEF5; }
         .btn-secondary {
             background: rgba(255,255,255,0.14);
             color: #fff;
@@ -112,7 +112,7 @@
             background: #fff;
             border-radius: 18px;
             padding: 18px;
-            border-left: 4px solid {{tint_color}};
+            border-left: 4px solid #27BEF5;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
         .announcement.warning { border-left-color: #ff9f0a; }
@@ -142,7 +142,7 @@
             font-size: 12px;
             font-weight: 700;
             background: rgba(39, 190, 245, 0.1);
-            color: {{tint_color}};
+            color: #27BEF5;
         }
         .featured-grid {
             display: grid;
@@ -265,7 +265,7 @@
             .package-icon { background: #2b2b2f; }
         }
     </style>
-    <meta name="theme-color" content="{{tint_color}}">
+    <meta name="theme-color" content="#27BEF5">
 </head>
 <body>
     <div class="page">
@@ -273,30 +273,27 @@
             <div class="hero-top">
                 <div class="brand">
                     <div class="badge">Silex static repo</div>
-                    <h1>{{repo_name}}</h1>
-                    <p class="hero-desc">{{repo_desc}}</p>
+                    <h1>My Silex Repo</h1>
+                    <p class="hero-desc">A customizable static repository generated with Silex.</p>
                     <div class="hero-meta">
-                        <span>{{package_count}} packages</span>
+                        <span>1 packages</span>
                         <span>Web + native depictions</span>
                         <span>Compatibility-aware metadata</span>
                     </div>
                     <div class="channel-pills">
-                        {{#channels}}
-                        <span class="channel-pill">{{name}} · {{count}}</span>
-                        {{/channels}}
+                        <span class="channel-pill">Stable · 1</span>
                     </div>
                 </div>
                 <div class="actions">
                     <h2>Add this repo</h2>
-                    <a class="btn btn-primary" href="sileo://source/https://{{repo_url}}">Add in Sileo</a>
-                    <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://{{repo_url}}">Add in Cydia</a>
-                    <a class="btn btn-secondary" href="zbra://sources/add/https://{{repo_url}}">Add in Zebra</a>
+                    <a class="btn btn-primary" href="sileo://source/https://repo.example.com">Add in Sileo</a>
+                    <a class="btn btn-secondary" href="cydia://url/https://cydia.saurik.com/api/share#?source=https://repo.example.com">Add in Cydia</a>
+                    <a class="btn btn-secondary" href="zbra://sources/add/https://repo.example.com">Add in Zebra</a>
                     <p class="actions-note">Packages can expose status, release channel, install environment, architecture, installation notes, known conflicts, migration notices, screenshots, changelogs, and source links.</p>
                 </div>
             </div>
         </section>
 
-        {{#has_announcements}}
         <section class="section">
             <div class="section-head">
                 <div>
@@ -305,17 +302,13 @@
                 </div>
             </div>
             <div class="announcement-list">
-                {{#announcements}}
-                <div class="announcement {{level}}">
-                    <div class="announcement-title">{{title}}</div>
-                    <div>{{message}}</div>
+                <div class="announcement warning">
+                    <div class="announcement-title">Example compatibility notice</div>
+                    <div>Replace this announcement with repo-specific guidance such as RootHide vs Rootless installation rules.</div>
                 </div>
-                {{/announcements}}
             </div>
         </section>
-        {{/has_announcements}}
 
-        {{#has_featured_packages}}
         <section class="section">
             <div class="section-head">
                 <div>
@@ -324,24 +317,21 @@
                 </div>
             </div>
             <div class="featured-grid">
-                {{#featured_packages}}
-                <a class="featured-card package-entry" href="depiction/web/{{bundle_id}}.html" style="background-image: url(assets/{{bundle_id}}/banner.png)"
-                   data-name="{{name}}" data-bundle="{{bundle_id}}" data-developer="{{developer.name}}" data-section="{{section}}"
-                   data-status="{{status}}" data-channel="{{channel}}" data-env="{{install_env_text}}" data-arch="{{architectures_text}}">
+                <a class="featured-card package-entry" href="depiction/web/com.example.package.html" style="background-image: url(assets/com.example.package/banner.png)"
+                   data-name="Example Package" data-bundle="com.example.package" data-developer="Example Developer" data-section="Tweaks"
+                   data-status="active" data-channel="stable" data-env="rootless / roothide" data-arch="iphoneos-arm64, iphoneos-arm64e">
                     <div class="featured-content">
-                        <h3>{{name}}</h3>
-                        <p>{{summary}}</p>
+                        <h3>Example Package</h3>
+                        <p># Example Package This is an example `description.md` file for Silex. Use this file as the main body of your package depiction. Unlike the…</p>
                         <div class="featured-badges">
-                            <span class="meta-badge {{status}}">{{status_label}}</span>
-                            <span class="meta-badge {{channel}}">{{channel_label}}</span>
-                            {{#has_install_env}}<span class="meta-badge">{{install_env_text}}</span>{{/has_install_env}}
+                            <span class="meta-badge active">Active</span>
+                            <span class="meta-badge stable">Stable</span>
+                            <span class="meta-badge">rootless / roothide</span>
                         </div>
                     </div>
                 </a>
-                {{/featured_packages}}
             </div>
         </section>
-        {{/has_featured_packages}}
 
         <section class="section">
             <div class="section-head">
@@ -377,43 +367,39 @@
                 </select>
             </div>
 
-            {{#sections}}
-            <div class="section-block package-section" data-section-name="{{section_name}}">
-                <h3 class="section-title">{{section_name}}</h3>
+            <div class="section-block package-section" data-section-name="Tweaks">
+                <h3 class="section-title">Tweaks</h3>
                 <div class="package-list">
-                    {{#packages}}
-                    <a class="package-card package-entry" href="depiction/web/{{bundle_id}}.html"
-                       data-name="{{name}}" data-bundle="{{bundle_id}}" data-developer="{{developer.name}}" data-section="{{section}}"
-                       data-status="{{status}}" data-channel="{{channel}}" data-env="{{install_env_text}}" data-arch="{{architectures_text}}">
+                    <a class="package-card package-entry" href="depiction/web/com.example.package.html"
+                       data-name="Example Package" data-bundle="com.example.package" data-developer="Example Developer" data-section="Tweaks"
+                       data-status="active" data-channel="stable" data-env="rootless / roothide" data-arch="iphoneos-arm64, iphoneos-arm64e">
                         <div class="package-card-top">
-                            <img class="package-icon" src="assets/{{bundle_id}}/icon.png" alt="{{name}}">
+                            <img class="package-icon" src="assets/com.example.package/icon.png" alt="Example Package">
                             <div class="package-main">
-                                <div class="package-name">{{name}}</div>
-                                <div class="package-meta">{{developer.name}} · v{{version}} · iOS {{works_min}}–{{works_max}}</div>
-                                <div class="package-summary">{{summary}}</div>
+                                <div class="package-name">Example Package</div>
+                                <div class="package-meta">Example Developer · v1.0.0 · iOS 15.0–17.0</div>
+                                <div class="package-summary"># Example Package This is an example `description.md` file for Silex. Use this file as the main body of your package depiction. Unlike the…</div>
                                 <div class="package-badges">
-                                    <span class="tag {{status}}">{{status_label}}</span>
-                                    <span class="tag {{channel}}">{{channel_label}}</span>
-                                    {{#has_install_env}}<span class="tag">{{install_env_text}}</span>{{/has_install_env}}
-                                    {{#has_architectures}}<span class="tag">{{architectures_text}}</span>{{/has_architectures}}
+                                    <span class="tag active">Active</span>
+                                    <span class="tag stable">Stable</span>
+                                    <span class="tag">rootless / roothide</span>
+                                    <span class="tag">iphoneos-arm64, iphoneos-arm64e</span>
                                 </div>
                                 <div class="package-tags">
-                                    {{#has_description_md}}<span class="tag">Markdown description</span>{{/has_description_md}}
-                                    {{#has_homepage}}<span class="tag">Homepage</span>{{/has_homepage}}
-                                    {{#has_source}}<span class="tag">Source</span>{{/has_source}}
+                                    <span class="tag">Markdown description</span>
+                                    <span class="tag">Homepage</span>
+                                    <span class="tag">Source</span>
                                 </div>
                             </div>
                         </div>
                     </a>
-                    {{/packages}}
                 </div>
             </div>
-            {{/sections}}
 
             <div class="empty-state" id="empty-state">No packages match the current filters.</div>
         </section>
 
-        <div class="footer">{{footer}}</div>
+        <div class="footer">My Silex Repo · Updated 2026-06-12</div>
     </div>
     <script src="web/index.js"></script>
     <script>repoSearchInit();</script>

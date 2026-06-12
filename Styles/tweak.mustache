@@ -1,19 +1,124 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, user-scalable=0">
     <title>{{tweak_name}}</title>
     <link rel="stylesheet" type="text/css" href="../../web/index.css">
-    <style>a, .tint, .table-btn:after {color: {{tint_color}}} .active {color: {{tint_color}};border-bottom: 2px solid {{tint_color}};}</style>
+    <style>
+        a, .tint, .table-btn:after { color: {{tint_color}}; }
+        .active { color: {{tint_color}}; border-bottom: 2px solid {{tint_color}}; }
+        .hero-chip, .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .hero-chip {
+            background: rgba(255,255,255,0.86);
+            color: {{tint_color}};
+        }
+        .badge-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 12px 0 6px;
+        }
+        .meta-badge {
+            background: rgba(0,0,0,0.05);
+            color: inherit;
+            margin-bottom: 0;
+        }
+        .meta-badge-stable { background: rgba(48, 209, 88, 0.14); color: #30d158; }
+        .meta-badge-beta { background: rgba(255, 159, 10, 0.14); color: #ff9f0a; }
+        .meta-badge-experimental { background: rgba(191, 90, 242, 0.14); color: #bf5af2; }
+        .meta-badge-deprecated { background: rgba(255, 69, 58, 0.14); color: #ff453a; }
+        .meta-badge-nightly { background: rgba(90, 200, 250, 0.14); color: #5ac8fa; }
+        .summary-box {
+            background: rgba(0,0,0,0.03);
+            border-radius: 16px;
+            padding: 14px 16px;
+            margin: 14px 0 10px;
+            line-height: 1.7;
+        }
+        .table { margin-bottom: 10px; }
+        .resource-grid, .info-list, .badge-row {
+            display: grid;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+        .social-pill {
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 14px;
+            border-radius: 999px;
+            background: rgba(0,0,0,0.05);
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .meta-note {
+            color: #8e8e93;
+            font-size: 13px;
+            margin-top: 12px;
+            line-height: 1.6;
+        }
+        .info-list-item, .matrix-item {
+            background: rgba(0,0,0,0.03);
+            border-radius: 14px;
+            padding: 12px 14px;
+            line-height: 1.65;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-top: 12px;
+            margin-bottom: 14px;
+        }
+        .matrix-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #8e8e93;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 6px;
+        }
+        .matrix-text { font-size: 14px; }
+        @media (prefers-color-scheme: dark) {
+            .hero-chip {
+                background: rgba(28,28,30,0.92);
+            }
+            .summary-box,
+            .social-pill,
+            .info-list-item,
+            .matrix-item,
+            .meta-badge {
+                background: rgba(255,255,255,0.08);
+            }
+            .meta-note, .matrix-title {
+                color: #98989d;
+            }
+        }
+    </style>
     <script src="../../web/index.js"></script>
-    <meta name="description" content="A package by {{tweak_developer}} for {{tweak_compatibility}}.">
+    <meta name="description" content="{{tweak_name}} by {{tweak_developer}} · {{tweak_compatibility}}">
     <meta property="og:title" content="{{tweak_name}}">
-    <meta property="og:description" content="A package by {{tweak_developer}} for {{tweak_compatibility}}.">
+    <meta property="og:description" content="{{tweak_name}} by {{tweak_developer}} · {{tweak_compatibility}}">
     <meta property="og:image" content="../../assets/{{tweak_bundle_id}}/banner.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="{{tweak_name}}">
-    <meta name="twitter:description" content="A package by {{tweak_developer}} for {{tweak_compatibility}}.">
+    <meta name="twitter:description" content="{{tweak_name}} by {{tweak_developer}} · {{tweak_compatibility}}">
     <meta name="twitter:image" content="https://{{repo_url}}/assets/{{tweak_bundle_id}}/banner.png">
     <meta name="theme-color" content="{{tint_color}}">
 </head>
@@ -23,48 +128,75 @@
         <div class="package package_head">
             <img src="../../assets/{{tweak_bundle_id}}/icon.png">
             <div class="package_info">
+                <div class="hero-chip">{{tweak_section}} · v{{tweak_version}}</div>
                 <h1 class="package_name">{{tweak_name}}</h1>
                 <p class="package_caption">{{tweak_developer}}</p>
+                <div class="badge-group">{{{support_badges_html}}}</div>
             </div>
         </div>
         <div class="nav">
-            <div class="nav_btn active tweak_info_btn" onclick="swap('.changelog','.tweak_info');">Details</div>
-            <div class="nav_btn changelog_btn" onclick="swap('.tweak_info','.changelog');">Changelog</div>
+            <div class="nav_btn active tweak_info_btn" onclick="swap('.changelog','.tweak_info');">详情 Details</div>
+            <div class="nav_btn changelog_btn" onclick="swap('.tweak_info','.changelog');">更新日志 Changelog</div>
         </div>
         <div class="tweak_info">
-            <p class="compatibility"><b>Compatibility:</b> This package is compatible with iOS {{tweak_compatibility}}.</p>
+            <p class="compatibility"><b>兼容性 Compatibility：</b>本插件兼容 iOS {{tweak_compatibility}}。</p>
             {{{tweak_carousel}}}
-            <div class="md_view">
-                <p>{{{tweak_description}}}</p>
-            </div>
-            <h3>Information</h3>
+            <div class="summary-box">{{tweak_tagline}}</div>
+            <div class="md_view">{{{tweak_description}}}</div>
+            {{{compatibility_matrix_html}}}
+            {{{install_notes_html}}}
+            {{{known_conflicts_html}}}
+            {{{replaces_html}}}
+            <h3>插件信息 Info</h3>
             <div class="table">
                 <div class="cell">
-                    <div class="title">Developer</div>
+                    <div class="title">开发者 Developer</div>
                     <div class="text">{{tweak_developer}}</div>
                     <br><br>
                 </div>
                 <div class="cell">
-                    <div class="title">Version</div>
+                    <div class="title">版本 Version</div>
                     <div class="text">{{tweak_version}}</div>
                     <br><br>
                 </div>
                 <div class="cell">
-                    <div class="title">Compatibility</div>
+                    <div class="title">兼容性 Compatibility</div>
                     <div class="text">{{tweak_compatibility}}</div>
                     <br><br>
                 </div>
                 <div class="cell">
-                    <div class="title">Section</div>
+                    <div class="title">分类 Section</div>
                     <div class="text">{{tweak_section}}</div>
                     <br><br>
                 </div>
+                <div class="cell">
+                    <div class="title">描述来源 Description</div>
+                    <div class="text">{{#has_description_md}}Markdown{{/has_description_md}}{{^has_description_md}}Tagline fallback{{/has_description_md}}</div>
+                    <br><br>
+                </div>
+                <div class="cell">
+                    <div class="title">主题色 Tint</div>
+                    <div class="text">{{#has_tint}}Package-specific{{/has_tint}}{{^has_tint}}Repo default{{/has_tint}}</div>
+                    <br><br>
+                </div>
             </div>
-            {{#source}}
-            <a href="{{source}}" class="table-btn">
-                <div>View Source Code</div>
-            </a>
-            {{/source}}
+            <div class="resource-grid">
+                {{#has_homepage}}
+                <a href="{{homepage}}" class="table-btn"><div>项目主页 Homepage</div></a>
+                {{/has_homepage}}
+                {{#has_source}}
+                <a href="{{source}}" class="table-btn"><div>源代码 Source Code</div></a>
+                {{/has_source}}
+            </div>
+            {{#has_social}}
+            <h3>开发者链接 Links</h3>
+            <div class="social-links">
+                {{#social_entries}}
+                <a href="{{url}}" class="social-pill">{{name}}</a>
+                {{/social_entries}}
+            </div>
+            {{/has_social}}
+            <p class="meta-note">Silex supports rich package metadata including release channels, package status, install environments, compatibility matrices, install notes, known conflicts, migration notices, Markdown descriptions, per-package tint colors, homepage/source links, and changelog tabs.</p>
         </div>
         <div class="changelog">
             {{{tweak_changelog}}}

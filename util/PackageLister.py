@@ -32,8 +32,6 @@ class PackageLister:
         """
         if not os.path.exists(self.root + path):
             os.makedirs(self.root + path)
-        else:
-            pass
 
     def ListDirNames(self):
         """
@@ -51,14 +49,15 @@ class PackageLister:
         Analogous to Packages.bz2.
         """
         tweak_release = []
-        for tweakEntry in PackageLister.ListDirNames(self):
-            with open(self.root + "Packages/" + tweakEntry + "/silica_data/index.json", "r") as content_file:
+        for tweak_entry in PackageLister.ListDirNames(self):
+            with open(self.root + "Packages/" + tweak_entry + "/silex_data/index.json", "r") as content_file:
                 try:
                     data = json.load(content_file)
                 except Exception:
                     PackageLister.ErrorReporter(self, "Configuration Error!", "The package configuration file at \"" +
-                        self.root + "Packages/" + tweakEntry + "/silica_data/index.json\" is malformatted. Please check"
-                        " for any syntax errors in a JSON linter and run Silica again.")
+                        self.root + "Packages/" + tweak_entry + "/silex_data/index.json\" is malformatted. Please check"
+                        " for any syntax errors in a JSON linter and run Silex again.")
+                data['_folder_name'] = tweak_entry
                 tweak_release.append(data)
         return tweak_release
 
@@ -73,9 +72,37 @@ class PackageLister:
             for folder in os.listdir(self.root + "docs/assets/" + tweak_data['bundle_id'] + "/screenshot/"):
                 if folder.lower() != ".ds_store":
                     image_list.append(folder)
-        except:
+        except Exception:
             pass
         return image_list
+
+    def PackageSourcePath(self, tweak_data, relative_path):
+        """
+        Resolve a package-relative source path under Packages/<folder>/.
+        """
+        return os.path.join(self.root, "Packages", tweak_data['_folder_name'], relative_path)
+
+    def PackageHasDescription(self, tweak_data):
+        """
+        Check whether a package provides a Markdown description file.
+        """
+        return os.path.isfile(self.PackageSourcePath(tweak_data, os.path.join("silex_data", "description.md")))
+
+    def PackageDescriptionPreview(self, tweak_data, max_length=180):
+        """
+        Build a short plain-text preview from description.md, or fall back to tagline.
+        """
+        description = tweak_data.get('tagline', '')
+        try:
+            with open(self.PackageSourcePath(tweak_data, os.path.join("silex_data", "description.md")), "r") as content_file:
+                description = content_file.read()
+        except Exception:
+            pass
+
+        description = " ".join(description.replace("\r", " ").replace("\n", " ").split()).strip()
+        if len(description) > max_length:
+            return description[:max_length - 1].rstrip() + "…"
+        return description
 
     def GetScreenshotSize(self, tweak_data):
         """
@@ -88,11 +115,8 @@ class PackageLister:
                 if folder.lower() != ".ds_store":
                     with Image.open(self.root + "docs/assets/" + tweak_data['bundle_id'] + "/screenshot/" + folder) as img:
                         width, height = img.size
-                        #  Make sure it's not too big.
-                        #  If height > width, make height 300, width proportional.
-                        #  If height < width, make width 160, height proportional.
                         if height > width:
-                            width = round((400 * width)/height)
+                            width = round((400 * width) / height)
                             height = 400
                         else:
                             height = round((200 * height) / width)
@@ -107,8 +131,7 @@ class PackageLister:
 
         String package_name: The name of a folder in Packages/ that holds tweak information.
         """
-
-        with open(self.root + "Packages/" + package_name + "/silica_data/index.json", "r") as content_file:
+        with open(self.root + "Packages/" + package_name + "/silex_data/index.json", "r") as content_file:
             data = json.load(content_file)
             return data['bundle_id']
 
@@ -123,26 +146,28 @@ class PackageLister:
             if new_bundle == bundle_id:
                 return package_name
         return None
-                
+
     def GetRepoSettings(self):
         with open(self.root + "Styles/settings.json", "r") as content_file:
             try:
                 return json.load(content_file)
             except Exception:
-                PackageLister.ErrorReporter(self, "Configuration Error!", "The Silica configuration file at \"" +
+                PackageLister.ErrorReporter(self, "Configuration Error!", "The Silex configuration file at \"" +
                     self.root + "Styles/settings.json\" is malformatted. Please check for any syntax errors in a JSON"
-                    " linter and run Silica again.")
+                    " linter and run Silex again.")
 
     def FullPathCname(self, repo_settings):
         """
         Some people may use a sub-folder like "repo" to put repo contents in.
-        While this is not recommended, Silica does support this.
+        While this is not recommended, Silex does support this.
 
         Object repo_settings: An object of repo settings.
         """
         try:
             if repo_settings['subfolder'] != "":
                 subfolder = "/" + repo_settings['subfolder']
+            else:
+                subfolder = ""
         except Exception:
             subfolder = ""
         return subfolder
@@ -157,6 +182,7 @@ class PackageLister:
         for tweak in tweak_release:
             if tweak['bundle_id'] == bundle_id:
                 return tweak['section']
+        return "Other"
 
     def ResolveVersion(self, tweak_release, bundle_id):
         """
@@ -168,6 +194,7 @@ class PackageLister:
         for tweak in tweak_release:
             if tweak['bundle_id'] == bundle_id:
                 return tweak['version']
+        return "0.0.0"
 
     def ErrorReporter(self, title, message):
         print('\033[91m- {0} -\n{1}\033[0m'.format(title, message))

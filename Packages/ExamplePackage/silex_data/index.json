@@ -1,0 +1,82 @@
+{
+    "bundle_id": "com.example.package",
+    "name": "Example Package",
+    "version": "1.0.0",
+    "tagline": "An example package used to demonstrate modern Silex metadata, compatibility labels, and depictions.",
+    "homepage": "https://example.com",
+    "developer": {
+        "name": "Example Developer",
+        "email": "developer@example.com"
+    },
+    "maintainer": {
+        "name": "Example Maintainer",
+        "email": "maintainer@example.com"
+    },
+    "social": [
+        {
+            "name": "Website",
+            "url": "https://example.com"
+        },
+        {
+            "name": "GitHub",
+            "url": "https://github.com/example"
+        }
+    ],
+    "section": "Tweaks",
+    "architecture": "iphoneos-arm64",
+    "architectures": [
+        "iphoneos-arm64",
+        "iphoneos-arm64e"
+    ],
+    "dependencies": "preferenceloader",
+    "works_min": "15.0",
+    "works_max": "17.0",
+    "featured": "true",
+    "template_only": true,
+    "source": "https://github.com/example/example-package",
+    "tint": "#27BEF5",
+    "status": "active",
+    "release_channel": "stable",
+    "install_env": [
+        "rootless",
+        "roothide"
+    ],
+    "injection": [
+        "ellekit"
+    ],
+    "install_notes": [
+        "Choose the Roothide build only if your jailbreak environment requires it.",
+        "Restart the target app after changing settings.",
+        "Import the included demo configuration after first install if you want sample data."
+    ],
+    "known_conflicts": [
+        "Do not install together with ExampleConflict.",
+        "Disable old legacy hooks before upgrading from rootful-era builds."
+    ],
+    "replaces_notice": [
+        "This example replaces the older com.example.package.legacy layout.",
+        "Rootful users should migrate to the dedicated compatibility branch instead."
+    ],
+    "search_keywords": [
+        "example",
+        "demo",
+        "rootless",
+        "roothide",
+        "ellekit"
+    ],
+    "changelog_limit": 3,
+    "changelog": [
+        {
+            "version": "1.0.0",
+            "changes": {
+                "new": [
+                    "Added example metadata for status, release channel, install environments, and compatibility display.",
+                    "Added demo install notes, conflict warnings, and migration notices."
+                ],
+                "improve": [
+                    "Improved package depiction examples for modern Silex repos."
+                ]
+            }
+        }
+    ]
+}

@@ -68,6 +68,17 @@ if [ -d docs/.git ]; then
 fi
 
 echo ""
+echo "正在同步远程仓库..."
+git fetch "$REMOTE_NAME" "$BRANCH" 2>/dev/null || true
+if git rev-parse "$REMOTE_NAME/$BRANCH" &>/dev/null; then
+    if ! git pull --rebase "$REMOTE_NAME" "$BRANCH"; then
+        echo ""
+        echo "拉取远程更新失败（可能有冲突）。请先手动解决后重试："
+        echo "  git pull --rebase $REMOTE_NAME $BRANCH"
+        exit 1
+    fi
+fi
+
 echo "正在推送到 $REPO_URL ..."
 git add .
 if git diff --cached --quiet; then
